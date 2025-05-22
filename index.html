@@ -75,6 +75,10 @@
         const found = users.some(user => user.username === username && user.password === password);
         const msg = document.getElementById('message');
         if (found) {
+            var d = new Date();
+            d.setTime(d.getTime() + (1*60*60*1000)); // 1 hour expiration
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = "username=" + encodeURIComponent(username) + "; " + expires + "; path=/"; //make cookie
             msg.innerHTML = "<span class='success'>Login successful! Welcome, " + username + ".</span>";
             window.location.href = "welcome.html";
         } else {
