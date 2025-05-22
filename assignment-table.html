@@ -73,9 +73,8 @@ window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sq
 .then(function(SQL) {
     //COMMENT fetch the .sql file as text
     
-    //return fetch('paint_store.sql')
-        //.then(response => response.text())
-    return new Promise(resolve => resolve(window.paintStoreSQL))    
+    return fetch('paint_store.sql')
+        .then(response => response.text())    
         .then(sqlText => {
             // Create a new database and run the SQL script
             const db = new SQL.Database();
