@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+    <script src="paint_store_sql.js"></script>
+    <meta charset="UTF-8">
+    <title>View Assignment</title>
+    <style>
+        body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
+        #banner{ 
+            background-image: url("bland.jpg"); 
+            background-size:50%;  
+            position: fixed; 
+            top: 0; left: 0; width: 100%; padding: 5px; padding-left:3%;
+            font-family: arial,serif;
+        }
+        #nav{
+            background-color: darkgrey;
+            position: fixed; 
+            left: 0; top:170px; width: 100%; padding: 17px; padding-left:2.5%;
+            font-family: arial,serif;
+            font-weight:bold;
+            box-shadow: 0 6px 4px -4px gray; 
+        }
+        a{
+            text-decoration: none;
+            margin-right: 3%;
+            color: #bac4ff;
+        }
+        input{
+            width: 300px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        table, th, td{border: 1px solid black;}
+    </style>
+</head>
+<body>
+    <div id = "banner"><h1 style = "color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
+    <p>
+    <div id= "nav">
+    <nav>
+        <a href="welcome.html">Home</a>
+        <a href="assignment-table.html">View Assignment</a>
+        <a href="customer-table.html">View/Add Customers</a>
+        <a href="product.html">View/Modify Inventory</a>
+        <a href="orders.html" tabindex="-1">View Orders</a>
+        <a href="customer_transact.html" tabindex="-1">View/Add Transactions</a>
+        <a href="contains-table.html" tabindex="-1">View Transaction-Content</a>
+        <a href="login.html" style = "color: #a62f2f;">Sign Out&nbsp&nbsp</a>
+    </nav>
+    </div>
+    </p>
+    
+
+<p><h2>List of Employee-Department Assignments by ID:</h2></p>
+<div id="results"></div>
+
+</body>
+</html>
+
+<script>
+    // Check login (client-side, using localStorage)
+//if (localStorage.getItem("loggedin") !== "true") {
+//    window.location.href = "login.html";
+//}
+
+// Load sql.js and then the .sql file
+window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
+.then(function(SQL) {
+    //COMMENT fetch the .sql file as text
+    
+    //return fetch('paint_store.sql')
+        //.then(response => response.text())
+    return new Promise(resolve => resolve(window.paintStoreSQL))    
+        .then(sqlText => {
+            // Create a new database and run the SQL script
+            const db = new SQL.Database();
+            db.exec(sqlText);
+
+            // Now run your query (the same as in your PHP)
+            const sql = `
+                SELECT Department2.*, Product.*
+                FROM Department2, Product
+                WHERE Department2.ProductID = Product.ProductID;
+            `;
+            const res = db.exec(sql);
+
+            const resultsDiv = document.getElementById('results');
+            if (res.length === 0 || res[0].values.length === 0) {
+                resultsDiv.innerHTML = "0 results";
+                return;
+            }
+
+            // Build HTML table
+            const columns = res[0].columns;
+            const values = res[0].values;
+            let html = `<table><tr>`;
+            columns.forEach(col => { html += `<th>${col}</th>`; });
+            html += `</tr>`;
+            values.forEach(row => {
+                html += `<tr>`;
+                row.forEach(cell => { html += `<td>${cell}</td>`; });
+                html += `</tr>`;
+            });
+            html += `</table>`;
+            html += `<div>There are ${values.length} results.</div>`;
+            resultsDiv.innerHTML = html;
+        });
+})
+.catch(err => {
+    document.getElementById('results').innerHTML = "Error loading data: " + err;
+});
+
+</script>
