@@ -53,7 +53,7 @@
     ?.split('=')[1];
     if (!username) {
     // Not logged in, redirect to login page
-    window.location.href = "test.html";
+    window.location.href = "index.html";
     } else {
     }
 </script>
@@ -85,7 +85,7 @@
         
         return fetch('paint_store.sql')
             .then(response => response.text())
-            r//eturn new Promise(resolve => resolve(window.paintStoreSQL))    
+            //return new Promise(resolve => resolve(window.paintStoreSQL))    
             .then(sqlText => {
                 //creates new database and runs SQL script
                 const db = new SQL.Database();
