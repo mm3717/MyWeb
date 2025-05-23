@@ -1,3 +1,17 @@
+<script>
+    const username = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('username='))
+    ?.split('=')[1];
+    if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "index.html";
+    } else {
+    // Show the page or personalize it
+    document.body.h2.i += decodeURIComponent(username);
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +57,7 @@
 </head>
 <body>
     <div id = "banner"><h1 style = "color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
-    <h2>Logged in as: <i><?php echo htmlspecialchars($_SESSION["username"]); ?></i> | Please refer to navigation for information functions</h2>
+    <h2>Logged in as: <i></i> | Please refer to navigation for information functions</h2>
     <p>
     <div id= "nav">
     <nav>
