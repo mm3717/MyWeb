@@ -1,4 +1,4 @@
-<!--<script>
+<script>
     const username = document.cookie
     .split('; ')
     .find(row => row.startsWith('username='))
@@ -7,10 +7,8 @@
     // Not logged in, redirect to login page
     window.location.href = "test.html";
     } else {
-    // Show the page or personalize it
-    document.body.innerHTML += "<p>Welcome, " + decodeURIComponent(username) + "!</p>";
     }
-</script>-->
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +16,6 @@
     <meta charset="UTF-8">
     <title>View/Add Transactions</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
-    <script src="paint_store_sql.js"></script>
     <style>
         body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
         #banner{ background-image: url("bland.jpg"); background-size:50%; position: fixed; top: 0; left: 0; width: 100%; padding: 5px; padding-left:3%; font-family: arial,serif;}
@@ -43,7 +40,7 @@
     <a href="index.html" style = "color: #a62f2f;">Sign Out</a>
     </nav>
     </div>
-    <p><h2>Customer Transactions:</h2></p>
+    <p><h2 style="padding-top:5%;">Customer Transactions:</h2></p>
     <div id="results"></div>
     <div id="form-error" style="color:red;font-weight:bold;"></div>
     <p><h3>New Transaction:</h3></p>
@@ -107,8 +104,8 @@ function renderTable() {
 
 window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
 .then(function(SQL) {
-    //return fetch('paint_store.sql').then(response => response.text())
-    return new Promise(resolve => resolve(window.paintStoreSQL))
+    return fetch('paint_store.sql').then(response => response.text())
+    //return new Promise(resolve => resolve(window.paintStoreSQL))
     .then(sqlText => {
         const db = new SQL.Database();
         db.exec(sqlText);
