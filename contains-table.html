@@ -1,4 +1,4 @@
-<!--<script>
+<script>
     const username = document.cookie
     .split('; ')
     .find(row => row.startsWith('username='))
@@ -7,10 +7,8 @@
     // Not logged in, redirect to login page
     window.location.href = "test.html";
     } else {
-    // Show the page or personalize it
-    document.body.innerHTML += "<p>Welcome, " + decodeURIComponent(username) + "!</p>";
     }
-</script>-->
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +16,6 @@
     <meta charset="UTF-8">
     <title>View Transaction-Content</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
-    <script src="paint_store_sql.js"></script>
     <style>
             body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
         #banner{ 
@@ -76,7 +73,7 @@
     </nav>
     </div>
     </p>
-<p><h2>Contains:</h2></p>
+<p><h2 style="padding-top:5%;">Contains:</h2></p>
 <div id="results"></div>
 
 <script>
@@ -85,9 +82,9 @@
     .then(function(SQL) {
         //COMMENT fetch the .sql file as text
         
-        //return fetch('paint_store.sql')
-            //.then(response => response.text())
-            return new Promise(resolve => resolve(window.paintStoreSQL))    
+        return fetch('paint_store.sql')
+            .then(response => response.text())
+            r//eturn new Promise(resolve => resolve(window.paintStoreSQL))    
             .then(sqlText => {
                 //creates new database and runs SQL script
                 const db = new SQL.Database();
