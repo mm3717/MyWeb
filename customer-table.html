@@ -1,0 +1,182 @@
+<!--<script>
+    const username = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('username='))
+    ?.split('=')[1];
+    if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "test.html";
+    } else {
+    // Show the page or personalize it
+    document.body.innerHTML += "<p>Welcome, " + decodeURIComponent(username) + "!</p>";
+    }
+</script>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View/Add Customers</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+    <script src="paint_store_sql.js"></script>
+    <style>
+        body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
+        #banner{ background-image: url("bland.jpg"); background-size:50%; position: fixed; top: 0; left: 0; width: 100%; padding: 5px; padding-left:3%; font-family: arial,serif;}
+        #nav{ background-color: darkgrey; position: fixed; left: 0; top:170px; width: 100%; padding: 17px; padding-left:3.5%; font-family: arial,serif; font-weight:bold; box-shadow: 0 6px 4px -4px gray;}
+        a{ text-decoration: none; margin-right: 2.5%; color: #bac4ff;}
+        input, select{ width: 300px; padding: 7px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px;}
+        table, th, td{border: 1px solid black;}
+    </style>
+</head>
+<body>
+    <div id="banner"><h1 style="color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
+    <div id="nav">
+        <nav>
+            <a href="welcome.html">Home</a>
+            <a href="assignment-table.html">View Assignment</a>
+            <a href="customer-table.html">View/Add Customers</a>
+            <a href="product.html">View/Modify Inventory</a>
+            <a href="orders.html" tabindex="-1">View Orders</a>
+            <a href="customer_transact.html" tabindex="-1">View/Add Transactions</a>
+            <a href="contains-table.html" tabindex="-1">View Transaction-Content</a>
+            <a href="index.html" style="color: #a62f2f;">Sign Out</a>
+        </nav>
+    </div>
+    <p><h2 style="padding-top:%;">Registered Customers:</h2></p>
+    <div id="results"></div>
+    <p><h2>New Customer Registry Form:</h2></p>
+    <form id="customerForm">
+        <p>Enter ID number: <input type="text" size="4" name="CustomerID" required></p>
+        <p>Enter firstname: <input type="text" size="20" name="first_name" required></p>
+        <p>Enter lastname: &nbsp;<input type="text" size="20" name="last_name" required></p>
+        <p>Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="date_first_purchase" required></p>
+        <p>Birth Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="date" name="date_of_birth" required></p>
+        <p>Phone Number:&nbsp;&nbsp;&nbsp; <input type="text" size="10" name="phone_number" required></p>
+        <h3>Address</h3>
+        <p>Number:&nbsp;&nbsp; <input type="text" size="8" name="address_number" required></p>
+        <p>Street:&nbsp;&nbsp; <input type="text" size="40" name="street" required></p>
+        <p>City:&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" size="40" name="city" required></p>
+        <p>State:&nbsp;&nbsp;&nbsp; 
+            <select name="state_" id="state_" required>
+                <option value=""></option>
+                <option value="Alabama">Alabama</option>
+                <option value="Alaska">Alaska</option>
+                <option value="Arizona">Arizona</option>
+                <option value="Arkansas">Arkansas</option>
+                <option value="California">California</option>
+                <option value="Colorado">Colorado</option>
+                <option value="Connecticut">Connecticut</option>
+                <option value="Delaware">Delaware</option>
+                <option value="Florida">Florida</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Hawaii">Hawaii</option>
+                <option value="Idaho">Idaho</option>
+                <option value="Illinois">Illinois</option>
+                <option value="Indiana">Indiana</option>
+                <option value="Iowa">Iowa</option>
+                <option value="Kansas">Kansas</option>
+                <option value="Kentucky">Kentucky</option>
+                <option value="Louisiana">Louisiana</option>
+                <option value="Maine">Maine</option>
+                <option value="Maryland">Maryland</option>
+                <option value="Massachusetts">Massachusetts</option>
+                <option value="Michigan">Michigan</option>
+                <option value="Minnesota">Minnesota</option>
+                <option value="Mississippi">Mississippi</option>
+                <option value="Missouri">Missouri</option>
+                <option value="Montana">Montana</option>
+                <option value="Nebraska">Nebraska</option>
+                <option value="Nevada">Nevada</option>
+                <option value="New Hampshire">New Hampshire</option>
+                <option value="New Jersey">New Jersey</option>
+                <option value="New Mexico">New Mexico</option>
+                <option value="New York">New York</option>
+                <option value="North Carolina">North Carolina</option>
+                <option value="North Dakota">North Dakota</option>
+                <option value="Ohio">Ohio</option>
+                <option value="Oklahoma">Oklahoma</option>
+                <option value="Oregon">Oregon</option>
+                <option value="Pennsylvania">Pennsylvania</option>
+                <option value="Rhode Island">Rhode Island</option>
+                <option value="South Carolina">South Carolina</option>
+                <option value="South Dakota">South Dakota</option>
+                <option value="Tennessee">Tennessee</option>
+                <option value="Texas">Texas</option>
+                <option value="Utah">Utah</option>
+                <option value="Vermont">Vermont</option>
+                <option value="Virginia">Virginia</option>
+                <option value="Washington">Washington</option>
+                <option value="West Virginia">West Virginia</option>
+                <option value="Wisconsin">Wisconsin</option>
+                <option value="Wyoming">Wyoming</option>
+            </select>
+        </p>
+        <p>Zip Code: <input type="text" size="5" name="zip_code" required></p>
+        <p>
+            <input type="submit" value="submit">
+        </p>
+    </form>
+    <div id="form-error" style="color:red;font-weight:bold;"></div>
+
+<script>
+let customerRows = []; // ADDED: holds all rows (from db + new ones)
+let columns = [];      // ADDED: holds column names
+
+function renderTable() { // ADDED: renders the table from customerRows
+    const resultsDiv = document.getElementById('results');
+    if (customerRows.length === 0) {
+        resultsDiv.innerHTML = "0 results";
+        return;
+    }
+    let html = `<table><tr>`;
+    columns.forEach(col => { html += `<th>${col}</th>`; });
+    html += `</tr>`;
+    customerRows.forEach(row => {
+        html += `<tr>`;
+        row.forEach(cell => { html += `<td>${cell}</td>`; });
+        html += `</tr>`;
+    });
+    html += `</table>`;
+    html += `<div>There are ${customerRows.length} results.</div>`;
+    resultsDiv.innerHTML = html;
+}
+
+window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
+.then(function(SQL) {
+    //return fetch('paint_store.sql').then(response => response.text())
+    return new Promise(resolve => resolve(window.paintStoreSQL))    
+    .then(sqlText => {
+        const db = new SQL.Database();
+        db.exec(sqlText);
+
+        const sql = `SELECT * FROM Customer;`;
+        const res = db.exec(sql);
+
+        if (res.length === 0 || res[0].values.length === 0) {
+            customerRows = [];
+            columns = [];
+        } else {
+            columns = res[0].columns;
+            customerRows = res[0].values.slice(); // copy array
+        }
+        renderTable(); // ADDED
+    });
+})
+.catch(err => {
+    document.getElementById('results').innerHTML = "Error loading data: " + err;
+});
+
+// ADDED: Handle form submit to add to table only
+document.getElementById('customerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    // Make sure order matches columns!
+    const newRow = columns.map(col => data[col] || "");
+    customerRows.push(newRow);
+    renderTable();
+    e.target.reset();
+    document.getElementById('form-error').textContent = "";
+});
+</script>
+</body>
+</html>
