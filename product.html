@@ -1,4 +1,4 @@
-<!--<script>
+<script>
     const username = document.cookie
     .split('; ')
     .find(row => row.startsWith('username='))
@@ -10,7 +10,7 @@
     // Show the page or personalize it
     document.body.innerHTML += "<p>Welcome, " + decodeURIComponent(username) + "!</p>";
     }
-</script>-->
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,8 +82,8 @@ function renderTable() {
 
 window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
 .then(function(SQL) {
-    //return fetch('paint_store.sql').then(response => response.text())
-    return new Promise(resolve => resolve(window.paintStoreSQL))
+    return fetch('paint_store.sql').then(response => response.text())
+    //return new Promise(resolve => resolve(window.paintStoreSQL))
     .then(sqlText => {
         const db = new SQL.Database();
         db.exec(sqlText);
