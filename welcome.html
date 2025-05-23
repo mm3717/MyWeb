@@ -7,7 +7,8 @@
     // Not logged in, redirect to login page
     window.location.href = "index.html";
     } else {
-      document.getElementById('username').textContent = username;
+      console.log("Raw username cookie value:", username);
+      document.getElementById('username').textContent = decodeURIComponent(username);
     }
 </script>
 
