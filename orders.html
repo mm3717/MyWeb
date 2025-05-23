@@ -37,6 +37,19 @@
         table, th, td{border: 1px solid black;}
     </style>
 </head>
+
+<script>
+    const username = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('username='))
+    ?.split('=')[1];
+    if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "test.html";
+    } else {
+    }
+</script>
+    
 <body>
     <div id = "banner"><h1 style = "color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
     <p>
