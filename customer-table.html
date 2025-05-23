@@ -1,17 +1,3 @@
-<script>
-    const username = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('username='))
-    ?.split('=')[1];
-    if (!username) {
-    // Not logged in, redirect to login page
-    window.location.href = "test.html";
-    } else {
-    // Show the page or personalize it
-    //document.body.innerHTML += "<p>Welcome, " + decodeURIComponent(username) + "!</p>";
-    }
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +13,19 @@
         table, th, td{border: 1px solid black;}
     </style>
 </head>
+
+<script>
+    const username = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('username='))
+    ?.split('=')[1];
+    if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "test.html";
+    } else {
+    }
+</script>    
+    
 <body>
     <div id="banner"><h1 style="color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
     <div id="nav">
@@ -41,7 +40,7 @@
             <a href="index.html" style="color: #a62f2f;">Sign Out</a>
         </nav>
     </div>
-    <p><h2 style="padding-top:5%;">Registered Customers:</h2></p>
+    <p><h2>Registered Customers:</h2></p>
     <div id="results"></div>
     <p><h2>New Customer Registry Form:</h2></p>
     <form id="customerForm">
