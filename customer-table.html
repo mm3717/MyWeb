@@ -18,7 +18,6 @@
     <meta charset="UTF-8">
     <title>View/Add Customers</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
-    <script src="paint_store_sql.js"></script>
     <style>
         body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
         #banner{ background-image: url("bland.jpg"); background-size:50%; position: fixed; top: 0; left: 0; width: 100%; padding: 5px; padding-left:3%; font-family: arial,serif;}
@@ -143,8 +142,8 @@ function renderTable() { // ADDED: renders the table from customerRows
 
 window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
 .then(function(SQL) {
-    //return fetch('paint_store.sql').then(response => response.text())
-    return new Promise(resolve => resolve(window.paintStoreSQL))    
+    return fetch('paint_store.sql').then(response => response.text())
+    //return new Promise(resolve => resolve(window.paintStoreSQL))    
     .then(sqlText => {
         const db = new SQL.Database();
         db.exec(sqlText);
