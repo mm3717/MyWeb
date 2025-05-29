@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View/Modify Inventory</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+    <style>
+        body{ background-color: #eaeaea; font-family: 'consolas',monospace; font-size: 120%; padding-left: 3%; padding-top: 200px;}
+        #banner{ background-image: url("bland.jpg"); background-size:50%; position: fixed; top: 0; left: 0; width: 100%; padding: 5px; padding-left:3%; font-family: arial,serif;}
+        #nav{ background-color: darkgrey; position: fixed; left: 0; top:170px; width: 100%; padding: 17px; padding-left:3.5%; font-family: arial,serif; font-weight:bold; box-shadow: 0 6px 4px -4px gray;}
+        a{ text-decoration: none; margin-right: 2.5%; color: #bac4ff;}
+        input{ width: 300px; padding: 7px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px;}
+        table, th, td{border: 1px solid black;}
+    </style>
+</head>
+
+<script>
+    const username = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('username='))
+    ?.split('=')[1];
+    if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "login.html";
+    } else {
+    }
+</script>
+    
+<body>
+    <div id = "banner"><h1 style = "color: #eaeaea; font-weight:bold; font-size: 350%;">BLAND & SONS PAINT CO.</h1></div>
+    <p>
+    <div id= "nav">
+    <nav>
+        <a href="welcome.html">Home</a>
+        <a href="assignment-table.html">View Assignment</a>
+        <a href="customer-table.html">View/Add Customers</a>
+        <a href="product.html">View/Modify Inventory</a>
+        <a href="orders.html" tabindex="-1">View Orders</a>
+        <a href="customer_transact.html" tabindex="-1">View/Add Transactions</a>
+        <a href="contains-table.html" tabindex="-1">View Transaction-Content</a>
+        <a href="login.html" style="color: #a62f2f;">Sign Out</a>
+    </nav>
+    </div>
+    </p>
+<p><h2>Product:</h2></p>
+<div id="results"></div>
+
+<p><h3>Set Inventory:</h3></p>
+<form id="inventoryForm">
+    <p>Enter ProductID number: <input type="text" size="4" name="ProductID" required>
+    <p>Enter new quantity: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" size="4" name="quantity_in_stock" required>
+        <p> 
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="submit" value="submit">
+</form>
+<div id="form-error" style="color:red;font-weight:bold;"></div>
+
+<script>
+let productRows = [];
+let columns = [];
+
+function renderTable() {
+    const resultsDiv = document.getElementById('results');
+    if (productRows.length === 0) {
+        resultsDiv.innerHTML = "0 results";
+        return;
+    }
+    let html = `<table><tr>`;
+    columns.forEach(col => { html += `<th>${col}</th>`; });
+    html += `</tr>`;
+    productRows.forEach(row => {
+        html += `<tr>`;
+        row.forEach(cell => { html += `<td>${cell}</td>`; });
+        html += `</tr>`;
+    });
+    html += `</table>`;
+    html += `<div>There are ${productRows.length} results.</div>`;
+    resultsDiv.innerHTML = html;
+}
+
+window.initSqlJs({locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`})
+.then(function(SQL) {
+    return fetch('paint_store.sql').then(response => response.text())
+    //return new Promise(resolve => resolve(window.paintStoreSQL))
+    .then(sqlText => {
+        const db = new SQL.Database();
+        db.exec(sqlText);
+
+        const sql = `SELECT * FROM Product;`;
+        const res = db.exec(sql);
+
+        if (res.length === 0 || res[0].values.length === 0) {
+            productRows = [];
+            columns = [];
+        } else {
+            columns = res[0].columns;
+            productRows = res[0].values.slice();
+        }
+        renderTable();
+    });
+})
+.catch(err => {
+    document.getElementById('results').innerHTML = "Error loading data: " + err;
+});
+
+// Handle form submit to update table only
+document.getElementById('inventoryForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    let found = false;
+    // Find the ProductID column index
+    const pidIndex = columns.indexOf('ProductID');
+    const qtyIndex = columns.indexOf('quantity_in_stock');
+    if (pidIndex === -1 || qtyIndex === -1) {
+        document.getElementById('form-error').textContent = "ProductID or quantity_in_stock column missing.";
+        return;
+    }
+    // Find and update the row
+    for (let i = 0; i < productRows.length; i++) {
+        if (String(productRows[i][pidIndex]) === data.ProductID) {
+            productRows[i][qtyIndex] = data.quantity_in_stock;
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        document.getElementById('form-error').textContent = "ProductID not found.";
+    } else {
+        document.getElementById('form-error').textContent = "";
+        renderTable();
+        e.target.reset();
+    }
+});
+</script>
+
+</body>
+</html>
