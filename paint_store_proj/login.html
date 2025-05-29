@@ -60,6 +60,28 @@
             <div id="message"></div>
         </form>
     </div>
+
+    <hr>
+    <div id="info-panel">
+        <h3>About This Project</h3>
+        <p>
+            <strong>Project History:</strong><br>
+            This application was originally developed as a PHP/MySQL project and hosted on <em>dbdev.kent.edu</em>, utilizing MariaDB as its backend database. However, following the decommissioning of the original hosting environment by Kent State University, the project became inaccessible in its initial form.
+        </p>
+        <p>
+            <strong>Current Implementation:</strong><br>
+            The codebase has since been extensively refactored to work with <strong>SQLite</strong> and <strong>SQL.js</strong>, enabling the application to run entirely in the browser. To comply with the free hosting limitations of GitHub Pages, the application now operates in a <strong>read-only demonstration mode</strong>. All original features and functions have been restored for demonstration purposes.
+        </p>
+        <p>
+            <strong>Demonstration Mode:</strong><br>
+            While the user interface and all operations appear fully functional, any changes that would have modified the database in the original version are now simulated and restorative. This means the SQL table remains unchanged between sessions, allowing users to explore the application's features without making permanent modifications. 
+            Unfortunately the original password security system could not be implemented, the login system now operates on statically coded information, however the cookie system for tracking login sessions has been restored.
+            Please proceed with either of the two following logins:<br>
+            username: "admin", password: "paint123"<br>
+            username: "employee", password: "colors"
+        </p>
+    </div>
+    
     <script>
     // Hardcoded user credentials for demo only - the original PHP code had actual security
     const users = [
