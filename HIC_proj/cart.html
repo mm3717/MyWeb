@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - TopTopHats LLC</title>
+    <link rel="stylesheet" href="assets/css/everyPage.css">
+    <style>
+        .cart-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-header {
+            font-size: 1.8rem;
+            color: darkred;
+            margin-bottom: 20px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .cart-table th {
+            background-color: crimson;
+            color: white;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            color: darkred;
+        }
+
+        .checkout-btn {
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div id="banner">
+        <h1 style="margin: 1%;">TopTopHats LLC</h1>
+    </div>
+
+    <nav>
+        <div>
+            <a href="home.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html" style="text-decoration: underline;">Shopping Cart</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <h2 class="cart-header">Your Shopping Cart</h2>
+        <table class="cart-table" id="cart-items">
+            <!-- Cart items will load dynamically here -->
+        </table>
+        <div class="cart-actions">
+            <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+            <button class="checkout-btn" id="checkout-btn" style="display: none;" onclick="window.location.href='checkout.html';">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <footer>
+        <h3>Don't Miss Out on Our Seasonal Sale!</h3>
+        <p>Use code <span class="promo">HATS20</span> for 20% off your first order!</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+    const checkoutButton = document.getElementById('checkout-btn');
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    const renderCart = () => {
+        cartItemsContainer.innerHTML = '';
+        let total = 0; // Initialize total
+
+        if (cartItems.length === 0) {
+            // If the cart is empty, show a message and hide the checkout button
+            cartItemsContainer.innerHTML = '<tr><td colspan="4">Your cart is empty.</td></tr>';
+            cartTotalElement.textContent = '0.00'; // Reset total to $0.00
+            checkoutButton.style.display = 'none';
+        } else {
+            // If there are items in the cart, render them
+            checkoutButton.style.display = 'block';
+            cartItems.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px;"></td>
+                    <td>${item.name}</td>
+                    <td>$${item.price} x ${item.quantity}</td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><button class="remove-item" data-index="${index}">Remove</button></td>
+                `;
+                cartItemsContainer.appendChild(row);
+                total += item.price * item.quantity; // Update total
+            });
+
+            cartTotalElement.textContent = total.toFixed(2); // Update the total display
+        }
+    };
+
+    cartItemsContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('remove-item')) {
+            const index = event.target.dataset.index;
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Item Removed',
+                text: 'The item has been successfully removed from your cart.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Remove the item from the array and update localStorage
+                cartItems.splice(index, 1);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                renderCart(); // Re-render the cart
+            });
+        }
+    });
+
+    renderCart(); // Initial render on page load
+});
+
+    </script>
+</body>
+</html>

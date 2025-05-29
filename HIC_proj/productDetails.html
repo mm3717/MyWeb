@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details - TopTopHats LLC</title>
+    <link rel="stylesheet" href="assets/css/everyPage.css" />
+    <style>
+      .product-details-container {
+        display: flex;
+        margin-left: 20px;
+        padding: 20px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .product-image {
+        width: 100%;
+        max-width: 400px;
+        display: block;
+      }
+      .product-information {
+        text-align: left;
+        margin-top: 20px;
+      }
+      #product-name {
+        font-size: 2rem;
+      }
+      #product-price {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+      .add-to-cart-btn {
+        background-color: darkred;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+      .add-to-cart-btn:hover {
+        background-color: crimson;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <!-- Banner Section -->
+    <div id="banner">
+      <h1 style="margin: 1%">TopTopHats LLC</h1>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+      <div>
+          <a href="home.html">Home</a>
+          <a href="products.html">Products</a>
+          <a href="cart.html">Shopping Cart</a>
+          <a href="checkout.html">Checkout</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+      </div>
+  </nav>
+  
+
+    <!-- Product Details Section -->
+    <div class="product-details-container">
+      <img
+        id="product-image"
+        class="product-image"
+        src="assets/imgs/default.png"
+        alt="Product Image"
+      />
+      <div class="product-information">
+        <h2 id="product-name">Product Name</h2>
+        <p id="product-description">Product description goes here.</p>
+        <p id="product-price">$0.00</p>
+        <button id="add-to-cart-btn" class="add-to-cart-btn">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+      <h3>Don't Miss Out on Our Seasonal Sale!</h3>
+      <p>
+        Use code <span class="promo">HATS20</span> for 20% off your first order!
+      </p>
+    </footer>
+
+    <script>
+      const productData = localStorage.getItem("product");
+      const product = JSON.parse(productData);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Populate product details
+        document.getElementById("product-name").textContent = product.name;
+        document.getElementById(
+          "product-price"
+        ).textContent = `$${product.price}`;
+        document.getElementById("product-description").textContent =
+          product.description;
+        document.getElementById("product-image").src = product.image;
+
+        // Add to Cart functionality
+        document
+          .getElementById("add-to-cart-btn")
+          .addEventListener("click", () => {
+            const cartItems =
+              JSON.parse(localStorage.getItem("cartItems")) || [];
+            const existingItemIndex = cartItems.findIndex(
+              (item) => item.name === product.name
+            );
+
+            if (existingItemIndex > -1) {
+              cartItems[existingItemIndex].quantity += 1;
+            } else {
+              cartItems.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            Swal.fire({
+              icon: "success",
+              title: "Added to Cart",
+              text: `${product.name} has been successfully added to your cart!`,
+              confirmButtonText: "OK",
+            });
+          });
+      });
+    </script>
+    <script>
+      const currentPage = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll("nav a");
+      navLinks.forEach(link => {
+          if (link.getAttribute("href") === currentPage) {
+              link.style.textDecoration = "underline";
+          }
+      });
+  </script>
+  </body>
+</html>

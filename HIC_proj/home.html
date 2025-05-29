@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopTopHats LLC - Home</title>
+    <link rel="stylesheet" href="assets/css/everyPage.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+        .grid span {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: auto;
+            min-height: 400px;
+        }
+        .grid img {
+            width: 100%; height: 400px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner Section -->
+    <div id="banner">
+        <h1 style="margin: 1%;">TopTopHats LLC</h1>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div>
+            <a href="home.html" style="text-decoration: underline;">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Shopping Cart</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section" style="background-image: url('assets/imgs/shady.webp'); background-size: 86% 180%; background-position: center 35%; height: 400px; position: relative; display: flex; align-items: center; justify-content: flex-start; padding-left: 20px; color: white;">
+        <div style="background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 10px; max-width: 1000px; width: 100%;">
+            <h2 style="font-size: 2.5em; margin-bottom: 10px;">Welcome to TopTopHats!</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;"><i>Your one-stop shop for the trendiest hats in town.</i></p>
+            <a href="products.html" class="cta-button" style="background-color: darkred; color: black; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Shop Now</a>
+        </div>
+    </div>
+
+    <!-- Featured Products Section -->
+    <h2 class="section-heading">Featured Products</h2>
+
+    <section class = "grid">
+        <span><img src="assets/imgs/bigboy.png"><h3>Big Boy $89.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/commando.png"><h3>Commando $29.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/flower.png"><h3>Flowerly $74.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/tiedye.png"><h3>Tie-Dye $39.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/catlady1.png"><h3>Creepy Cat $99.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/fuzzyleopard.png"><h3>Fuzzy Leopard $54.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/Yourmajesty.png"><h3>Your Majesty $99.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+        <span><img src="assets/imgs/flameon.png"><h3>Flame On $14.99</h3><a href="products.html" class="view-product-button">View Product</a></span>
+    </section>
+
+    <!-- Promo Section -->
+    <div class="promo-banner">
+        <h2>Free Shipping on Orders Over $50!</h2>
+        <p>Enjoy free shipping on all orders above $50. Limited time only!</p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <h3>Don't Miss Out on Our Seasonal Sale!</h3>
+        <p>Use code <span class="promo">HATS20</span> for 20% off your first order!</p>
+    </footer>
+</body>
+</html>
