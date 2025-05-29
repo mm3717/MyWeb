@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MyWeb</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css@0.1.20/dist/98.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+    <div class="window" id="start" style="width: 100px; height:200px; position: absolute; left: 19px; top: 659px; display:none;">
+        <div class="title-bar window-header">
+            <div class="title-bar-text"><img src="windows-icon.png  "></img>Start</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimize(this)"></button>
+                <button aria-label="Maximize" onclick="maximize(this)"></button>
+                <button aria-label="Close" onclick="closeme(this)"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>This website is still under development! <br>Eventually there will be functional content here, but for now I've included an important attribution...  </p>
+            This site would not have been possible without the following stylesheet as a baseline:
+            <p>windows 98 css: <a target="_blank" href="https://jdan.github.io/98.css/">https://jdan.github.io/98.css/</a></p>
+        </div>
+    </div>
+
+
+
+    <div class="window" style="width: 300px; position: absolute; left: 569px; top: 220px;" id="info">
+        <div class="title-bar window-header">
+            <div class="title-bar-text">Info</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimize(this)"></button>
+                <button aria-label="Maximize" onclick="maximize(this)"></button>
+                <button aria-label="Close" onclick="closeme(this)"></button>
+            </div>
+        </div>
+        <div class="window-body" style="width:400px;font-size: 14px; letter-spacing: 1px;">
+            Welcome to my website! <br> 
+            I've styled the user interface after the unique aesthetic of Windows 98.
+            One of my hobbies is experimenting with CSS, and I thought it would be interesting to emulate an operating system with draggable windows in the browser.
+            Be sure to check out the projects "app" in the taskbar. This will take you to some of the projects I’ve saved from my time at university (still working on integrating more!).
+            I'm quite proud of the projects I've completed individually, as well as the ones made in collaboration with colleagues.
+            I hope this site serves as an effective portfolio to demonstrate some of the technical skills listed on my resume.
+            Where I couldn’t share GitHub links due to confidentiality, I’ve included detailed project documentation instead.
+            I hope you enjoy browsing through these artifacts and interacting with the website (remember, windows can be resized)!
+            <br><img src="clippy.gif"></img><br>
+            (I know clippy is from the XP era but I could not resist including this gif)
+        </div>
+    </div>
+
+
+
+    <div class="window" id="resume" style="width: 520px; position: absolute; left: 967px; top: 41px; display:none;">
+        <div class="title-bar window-header">
+            <div class="title-bar-text">Resume</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimize(this)"></button>
+                <button aria-label="Maximize" onclick="maximize(this)"></button>
+                <button aria-label="Close" onclick="closeme(this)"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="window-body"><iframe src="2025 Maxim M Resume.pdf" width="100%" height="650px" title="PDF Document"></iframe></div>
+        </div>
+    </div>
+
+
+
+    <div class="window" style="width: 520px; height: 520px; display: none;" id="projects">
+        <div class="title-bar window-header">
+            <div class="title-bar-text">Projects</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimize(this)"></button>
+                <button aria-label="Maximize" onclick="maximize(this)"></button>
+                <button aria-label="Close" onclick="closeme(this)"></button>
+            </div>
+        </div>
+    <div class="window-body" style="font-size: 14px; width: 1000px;">
+        <p></p>
+      
+        <menu role="tablist">
+            <li role="tab" aria-selected="true"><a href="#tab1">Database System Design CS33007</a></li>
+            <li role="tab"><a href="#tab2">Structure of Programming Languages CS33101</a></li>
+            <li role="tab"><a href="#tab3">Artificial Intelligence CS44201</a></li>
+            <li role="tab"><a href="#tab4">CAPSTONE PROJECT CS49999</a></li>
+            <li role="tab"><a href="#tab5">Human Interface Computing CS32301</a></li>
+            <li role="tab"><a href="#tab6">Software Engineering CS33901</a></li>
+        </menu>
+      
+            <div id="tab1" class="window" role="tabpanel">
+                <div class="window-body">
+                    <a href="./paint_store_proj/login.html">Visit the Webiste Created for this Project for more Info!</a>
+                    <br><br>
+                    <iframe src="Database Final Presentation.pdf" width="100%" height="650px" title="PDF Document"></iframe>
+                </div>
+            </div>
+            <div id="tab2" class="window" role="tabpanel" hidden>
+                <div class="window-body">
+                    <a href="https://github.com/gregdelozier/struct-prog-lang">Prof. Delozier's struct-prog-lang on GitHub</a>
+                    <br><br>
+                    <a href="https://github.com/gregdelozier/struct-prog-lang">My struct-prog-lang Project on GitHub</a>
+                    <br><br>
+                    <iframe src="CS33101-ProjectReport-MaximMamotlivi.pdf" width="100%" height="650px" title="PDF Document"></iframe>
+                </div>
+            </div>
+            <div id="tab3" class="window" role="tabpanel" hidden>
+            <div class="window-body"><iframe src="Comparing CNN to K-Means for Medical Image Segmentation.docx.pdf" width="100%" height="650px" title="PDF Document"></iframe></div>
+            </div>
+            <div id="tab4" class="window" role="tabpanel" hidden>
+            <div class="window-body"><iframe src="RouteMaster Technical Report.pdf" width="100%" height="650px" title="PDF Document"></iframe></div>
+            </div>
+            <div id="tab5" class="window" role="tabpanel" hidden>
+                <div class="window-body">
+                    <a href="./HIC_proj/home.html">Visit the Webiste Created for this Project for more Info!</a>
+                    <br><br>
+                    <iframe src="HIC Presentation.pdf" width="100%" height="650px" title="PDF Document"></iframe>
+                </div>
+            </div>
+            <div id="tab6" class="window" role="tabpanel" hidden>
+                <div class="window-body">
+                    <a href="https://github.com/EanDodge/Software-Engineering-Delta/tree/main/Main%20Project">Main Project on GitHub</a>
+                    <br><br>
+                    <iframe src="Group Delta Software Engineering Project.pdf" width="100%" height="650px" title="PDF Document"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+      <script>
+        document.querySelector('menu').onclick = function(e) {
+          if (e.target.tagName === 'A') {
+            e.preventDefault();
+            //remove aria-selected from all tabs
+            for (const li of this.children) li.removeAttribute('aria-selected');
+            //set aria-selected on clicked tab
+            e.target.parentElement.setAttribute('aria-selected', 'true');
+            // hide all panels
+            for (const panel of document.querySelectorAll('[role="tabpanel"]')) panel.hidden = true;
+            //shows selected panel
+            document.querySelector(e.target.getAttribute('href')).hidden = false;
+          }
+        };
+        </script>
+
+    <div id="taskbar">
+        <button onclick="openme('start')" id="taskbtn"><img src="windows-icon.png"></img>Start</button>
+        <button onclick="openme('info')" id="taskbtn">Info</button>
+        <button onclick="openme('projects')" id="taskbtn">Projects</button>
+        <button onclick="openme('resume')" id="taskbtn">Resume</button>
+        <span id="taskbar-clock" style="margin-left:auto; margin-right:12px; min-width:80px; text-align:right;"></span>
+    </div>
+    <script>
+        function updateClock() {
+        const clock = document.getElementById('taskbar-clock');
+        if (!clock) return;
+        const now = new Date();
+        //format is HH:MM AM/PM
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        clock.textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
